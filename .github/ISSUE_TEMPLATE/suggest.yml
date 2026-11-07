@@ -1,0 +1,38 @@
+name: 科技建议
+description: 建议新增或修改一项科技。不会写代码也能提。
+title: "[建议] "
+labels: ["建议"]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: 科技名称
+      placeholder: 例如 蒸汽机 / 青霉素 / 集装箱
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: 一句话说明它解决了什么问题
+      placeholder: 例如 把燃料的热变成机械运动，人类第一次有了不靠畜力和风水的原动机。
+    validations:
+      required: true
+
+  - type: input
+    id: year
+    attributes:
+      label: 大概哪一年出现（公元前用负数）
+      placeholder: 1712 或 -3000
+
+  - type: textarea
+    id: prereqs
+    attributes:
+      label: 它依赖哪些更早的科技
+      placeholder: 只写"没有它就做不出来"的，不要写"相关"的。
+
+  - type: textarea
+    id: why
+    attributes:
+      label: 理由和来源链接
+      placeholder: 为什么该加这一项？最好附一个百科或论文链接。
