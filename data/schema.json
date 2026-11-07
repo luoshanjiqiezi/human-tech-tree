@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/human-tech-tree/data/schema.json",
+  "title": "人类科技树数据",
+  "description": "data/tech.json 的结构约束。scripts/validate-data.mjs 是实际执行者，本文件供编辑器与贡献者参考。",
+  "type": "object",
+  "required": ["version", "nodes"],
+  "properties": {
+    "version": { "type": "integer", "minimum": 1 },
+    "updated": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "title": { "type": "string" },
+    "description": { "type": "string" },
+    "license": { "type": "string" },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/node" }
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "node": {
+      "type": "object",
+      "required": ["id", "name", "year", "era", "category", "summary", "prereqs"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]{0,63}$",
+          "description": "全库唯一的稳定标识；发布后不要修改"
+        },
+        "name": { "type": "string", "minLength": 1, "maxLength": 50 },
+        "nameEn": { "type": "string", "maxLength": 120 },
+        "year": { "type": "integer", "minimum": -3300000, "maximum": 2200 },
+        "approx": { "type": "boolean" },
+        "era": {
+          "type": "string",
+          "enum": [
+            "paleolithic",
+            "neolithic",
+            "bronze",
+            "iron",
+            "classical",
+            "medieval",
+            "renaissance",
+            "industrial",
+            "electric",
+            "atomic",
+            "information",
+            "digital",
+            "ai",
+            "future"
+          ]
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "energy",
+            "materials",
+            "tools",
+            "agriculture",
+            "information",
+            "transport",
+            "medicine",
+            "science",
+            "computing",
+            "space",
+            "society"
+          ]
+        },
+        "summary": { "type": "string", "minLength": 1, "maxLength": 180 },
+        "description": { "type": "string", "maxLength": 4000 },
+        "prereqs": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$" },
+          "uniqueItems": true
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string", "maxLength": 30 },
+          "maxItems": 12
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["url"],
+            "properties": {
+              "label": { "type": "string" },
+              "url": { "type": "string", "pattern": "^https?://" }
+            },
+            "additionalProperties": true
+          }
+        },
+        "status": {
+          "type": "string",
+          "enum": ["established", "experimental", "speculative", "disputed"]
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}
