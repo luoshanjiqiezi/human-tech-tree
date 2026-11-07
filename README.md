@@ -28,7 +28,7 @@
 
 浏览器出于安全原因不允许 `file://` 页面读取本地 JSON，所以需要一个服务器。有两种模式：
 
-### 静态模式（无需账号，零后端）
+### 静态模式
 
 ```bash
 # 任选一种
@@ -39,7 +39,7 @@ npm run dev
 
 然后打开 **http://localhost:4173**。编辑只存在浏览器草稿里，导出 JSON 后通过 Git/Issue 提交。
 
-### 实时协作模式（账号 + 实时广播）
+### 实时协作模式
 
 ```bash
 npm run live
@@ -149,12 +149,9 @@ npm run build      # 生成 dist/，可部署到任意静态托管
 
 ---
 
-## 三种协作方式
 
-“人人可编辑”不等于“匿名直接写生产库”。没有账号、历史、审核和回滚的公开写入，通常几天内就会被广告和编辑战淹没。这个项目提供三条路径：
 
-### A. 实时协作服务器（已实现，推荐给社区）
-
+### A. 实时协作服务器
 ```bash
 npm run live
 ```
@@ -168,7 +165,7 @@ npm run live
 
 详见 [server/README.md](server/README.md)。公开部署时建议设置 `REGISTRATION=closed`，由管理员创建邀请账号。
 
-### B. 静态站 + Git（零服务器，适合开放数据）
+### B. 静态站 + Git
 
 1. 打开网站，点「编辑」，修改或新增科技。
 2. 改动自动保存在**你自己的浏览器**里，不会自动同步给别人。
@@ -178,28 +175,8 @@ npm run live
    - **不会 Git**：通过仓库的 Issue 模板提交“科技建议”，附上 JSON 或字段；维护者代为合并。
 5. GitHub Actions 自动运行 `npm run validate`。校验通过 + 维护者审核后合并，网站自动重新部署。
 
-这条路径的优点是：**零成本、可审计、可回滚、不会被匿名脚本刷爆**。
 
-### C. 多实例 / 托管数据库（规模化时）
 
-当单个 JSON 文件和一台服务器不够时，升级到 Postgres/Supabase：
-
-- 节点与边存表，`tech_edges` 保证 DAG；
-- OAuth 登录 + RLS，普通用户提交建议、reviewer 发布；
-- `revisions` 存版本，支持 diff、回滚、封禁；
-- Realtime 订阅 + 乐观更新；
-- 夜间导出静态 JSON，网站继续走 CDN/Pages。
-
-完整表结构、RLS 和迁移步骤见 [docs/roadmap.md](docs/roadmap.md)。
-
----
-
-## 部署到 GitHub Pages
-
-1. 新建仓库并推送本项目。
-2. 仓库 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**。
-3. 推送 `main` 后，`.github/workflows/deploy.yml` 会校验数据、构建 `dist/` 并发布。
-4. 在 `src/config.js` 填入仓库地址（或留空，托管在 `*.github.io` 时会自动推断）：
 
 ```js
 export const CONFIG = {
@@ -234,7 +211,7 @@ docker run -d -p 4174:4174 \
 
 静态站和实时服务器可以并存：Pages 提供只读快照，实时服务器提供协作编辑；用 `npm run promote` 把实时数据同步回 `data/tech.json` 后重新部署静态站。
 
-> 不熟悉 Git？看 [PUBLISH.md](PUBLISH.md) 里的 GitHub 网页上传步骤。
+
 
 ---
 
