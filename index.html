@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>人类科技树 · Tech Tree of Humanity</title>
+    <meta
+      name="description"
+      content="从打制石器到人工智能：一张可缩放、可检索、人人可参与编辑的人类技术依赖图谱。"
+    />
+    <meta name="theme-color" content="#080b14" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="tt-mode" content="static" />
+    <meta property="og:title" content="人类科技树 · Tech Tree of Humanity" />
+    <meta
+      property="og:description"
+      content="从打制石器到人工智能：一张可缩放、可检索、人人可参与编辑的人类技术依赖图谱。"
+    />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body>
+    <noscript>
+      <div class="noscript">
+        <h1>需要启用 JavaScript</h1>
+        <p>这棵科技树用 JavaScript 绘制依赖关系、处理缩放和编辑。请在浏览器中启用 JavaScript 后刷新。</p>
+      </div>
+    </noscript>
+    <div class="app" id="app">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <path d="M7 26V18a5 5 0 0 1 5-5h6.5a5 5 0 0 0 5-5V6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+              <path d="M18 13v3.5a5 5 0 0 1-5 5h-1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity=".55" />
+              <circle cx="7" cy="26" r="2.3" fill="currentColor" />
+              <circle cx="18" cy="13" r="1.7" fill="currentColor" opacity=".65" />
+              <circle cx="23.5" cy="6" r="2.3" fill="currentColor" />
+            </svg>
+          </span>
+          <span class="brand-text">
+            <strong>人类科技树</strong>
+            <small>TECH TREE OF HUMANITY</small>
+          </span>
+        </div>
+
+        <div class="topbar-search">
+          <div class="search-box" id="search-box">
+            <svg class="search-icon" viewBox="0 0 20 20" aria-hidden="true">
+              <circle cx="8.5" cy="8.5" r="5.2" fill="none" stroke="currentColor" stroke-width="1.5" />
+              <path d="M12.4 12.4L16 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            </svg>
+            <input
+              id="search-input"
+              type="search"
+              placeholder="搜索科技、年份或分类…"
+              autocomplete="off"
+              spellcheck="false"
+              aria-label="搜索科技"
+              aria-controls="search-panel"
+              aria-expanded="false"
+            />
+            <kbd>/</kbd>
+            <div class="search-panel" id="search-panel" hidden></div>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button class="btn btn-quiet btn-fit" id="btn-fit" type="button">
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M4 8V4h4M12 4h4v4M16 12v4h-4M8 16H4v-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span>全图</span>
+          </button>
+          <button class="btn btn-quiet" id="btn-edit" type="button" aria-pressed="false">
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M13.2 3.8l3 3L7 16H4v-3l9.2-9.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+            </svg>
+            <span>编辑</span>
+          </button>
+          <button class="btn btn-quiet account-btn" id="btn-account" type="button" hidden>
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <circle cx="10" cy="7" r="3.2" fill="none" stroke="currentColor" stroke-width="1.5" />
+              <path d="M4.2 16.2c.5-3 2.8-4.7 5.8-4.7s5.3 1.7 5.8 4.7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            </svg>
+            <span id="account-label">登录 / 注册</span>
+          </button>
+          <button class="btn btn-primary" id="btn-guide" type="button">如何参与</button>
+          <a class="icon-btn" id="btn-repo" href="#" target="_blank" rel="noopener" aria-label="GitHub 仓库" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="currentColor" d="M12 2C6.48 2 2 6.58 2 12.23c0 4.52 2.87 8.35 6.84 9.7.5.1.68-.22.68-.49v-1.72c-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.63.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.35 1.12 2.92.86.09-.66.35-1.12.63-1.38-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05A9.4 9.4 0 0 1 12 6.85c.85 0 1.71.12 2.51.35 1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.8-4.57 5.05.36.32.68.94.68 1.9v2.82c0 .27.18.6.69.49A10.24 10.24 0 0 0 22 12.23C22 6.58 17.52 2 12 2z" />
+            </svg>
+          </a>
+          <button class="icon-btn menu-btn" id="btn-menu" type="button" aria-label="打开筛选" aria-expanded="false">
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M3 5.5h14M3 10h14M3 14.5h9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-head">
+          <div>
+            <span class="eyebrow">EXPLORE</span>
+            <h2>筛选与导航</h2>
+          </div>
+          <button class="text-btn" id="btn-reset-filters" type="button">重置</button>
+        </div>
+
+        <div class="live-status" id="live-status" hidden>
+          <span class="live-dot" aria-hidden="true"></span>
+          <span id="live-status-text">实时连接中…</span>
+        </div>
+
+        <div class="stats" id="stats">
+          <div class="stat">
+            <strong id="stat-nodes">—</strong>
+            <span>项科技</span>
+          </div>
+          <div class="stat">
+            <strong id="stat-edges">—</strong>
+            <span>条依赖</span>
+          </div>
+          <div class="stat">
+            <strong id="stat-span">—</strong>
+            <span>万年跨度</span>
+          </div>
+        </div>
+
+        <section class="filter-section">
+          <div class="section-head">
+            <h3>时代</h3>
+            <span class="hint">双击只看</span>
+          </div>
+          <div class="era-list" id="era-list"></div>
+        </section>
+
+        <section class="filter-section">
+          <div class="section-head">
+            <h3>分类</h3>
+            <span class="hint" id="visible-hint"></span>
+          </div>
+          <div class="cat-list" id="cat-list"></div>
+        </section>
+
+        <div class="sidebar-foot">
+          <p id="data-meta">正在载入数据…</p>
+          <p>开放数据 · <span class="mono">CC BY-SA 4.0</span> · 代码 MIT</p>
+        </div>
+      </aside>
+
+      <main class="stage" id="stage">
+        <div class="canvas" id="canvas">
+          <div class="world" id="world">
+            <svg class="edges" id="edges" aria-hidden="true"></svg>
+            <div class="nodes" id="nodes"></div>
+          </div>
+        </div>
+
+        <div class="stage-filter" id="stage-filter" hidden>
+          <span class="filter-dot"></span>
+          <span id="filter-summary"></span>
+          <button class="text-btn" id="btn-clear-filter" type="button">清除</button>
+        </div>
+
+        <div class="zoom-controls" aria-label="缩放控制">
+          <button class="zoom-btn" type="button" data-zoom="in" aria-label="放大">+</button>
+          <span class="zoom-level" id="zoom-level">100%</span>
+          <button class="zoom-btn" type="button" data-zoom="out" aria-label="缩小">−</button>
+          <button class="zoom-btn zoom-fit" type="button" data-zoom="fit" aria-label="适应屏幕">
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M4 8V4h4M12 4h4v4M16 12v4h-4M8 16H4v-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="minimap" id="minimap" title="点击或拖动小地图快速定位">
+          <span class="minimap-title">全图导航</span>
+          <canvas id="minimap-canvas"></canvas>
+        </div>
+
+        <div class="stage-tip" id="stage-tip">
+          <span>拖拽平移</span><i></i><span>滚轮缩放</span><i></i><span>点击节点查看依赖</span>
+        </div>
+
+        <div class="empty-state" id="empty-state" hidden>
+          <div class="empty-glyph" aria-hidden="true">⌁</div>
+          <h3>没有符合筛选的科技</h3>
+          <p>把时代和分类放宽一些，或者直接看全图。</p>
+          <button class="btn btn-primary" id="btn-empty-reset" type="button">显示全部</button>
+        </div>
+
+        <button class="draft-chip" id="draft-chip" type="button" hidden>
+          <span class="draft-dot"></span>
+          <span id="draft-text">草稿</span>
+          <span class="draft-cta">查看</span>
+        </button>
+
+        <div class="edit-bar" id="edit-bar" hidden>
+          <span class="edit-pulse" aria-hidden="true"></span>
+          <span class="edit-label"><strong>编辑模式</strong><small id="edit-hint">点击节点修改，双击直接打开</small></span>
+          <button class="btn btn-small" id="btn-new" type="button">＋ 新增科技</button>
+          <button class="btn btn-small btn-ghost" id="btn-done" type="button">完成</button>
+        </div>
+
+        <aside class="detail-panel" id="detail" aria-label="科技详情" hidden></aside>
+        <div class="detail-scrim" id="detail-scrim" hidden></div>
+
+        <div class="sidebar-scrim" id="sidebar-scrim" hidden></div>
+      </main>
+    </div>
+
+    <div class="loading" id="loading" role="status" aria-live="polite">
+      <div class="loading-mark" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+      <p>正在展开科技树…</p>
+    </div>
+
+    <div class="load-error" id="load-error" hidden>
+      <div class="load-error-card">
+        <span class="eyebrow">DATA UNAVAILABLE</span>
+        <h1>数据没能展开</h1>
+        <p id="load-error-message">请检查网络连接或数据文件。</p>
+        <div class="load-error-actions">
+          <button class="btn btn-primary" id="btn-reload" type="button">重试</button>
+          <button class="btn btn-ghost" id="btn-copy-serve" type="button">复制启动命令</button>
+        </div>
+        <pre class="code-block"><code id="serve-command">python -m http.server 4173</code></pre>
+        <p class="load-error-note">浏览器不允许 <code>file://</code> 页面直接读取 JSON。请在项目目录启动一个静态服务器，然后访问 <code>http://localhost:4173</code>。</p>
+      </div>
+    </div>
+
+    <div id="modal-root"></div>
+    <div id="toast-root" class="toast-root" aria-live="polite"></div>
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>

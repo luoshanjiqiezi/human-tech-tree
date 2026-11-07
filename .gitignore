@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.qa/
+.edge-profile*/
+shot-*.png
+*.log
+.DS_Store
+Thumbs.db
+.env
+.env.local
+
+# 实时服务器运行数据：账号、会话、版本快照、首次管理员密码
+server/data/

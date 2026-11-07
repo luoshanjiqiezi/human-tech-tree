@@ -1,0 +1,20 @@
+人类科技树数据集（data/tech.json 及其衍生数据）
+Copyright (c) 2026 Human Tech Tree contributors
+
+本数据集采用知识共享 署名-相同方式共享 4.0 国际许可协议
+(Creative Commons Attribution-ShareAlike 4.0 International, CC BY-SA 4.0)。
+
+你可以自由地：
+- 共享：以任何媒介或格式复制、发行本作品；
+- 改编：remix、转换、再创作。
+
+但必须遵守：
+- 署名：注明来源「人类科技树 / Tech Tree of Humanity」并提供许可证链接；
+- 相同方式共享：若你改编、转换或再创作，必须按相同许可证分发你的贡献；
+- 不得增加法律条款或技术措施限制他人行使许可证授予的权利。
+
+完整许可证文本：
+https://creativecommons.org/licenses/by-sa/4.0/legalcode.zh-Hans
+https://creativecommons.org/licenses/by-sa/4.0/
+
+代码部分（src/、scripts/、assets/、index.html）采用 MIT License，见 LICENSE。

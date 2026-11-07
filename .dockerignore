@@ -1,0 +1,14 @@
+node_modules
+dist
+.git
+.gitignore
+.github
+docs
+server/data
+server/qa-*
+*.png
+*.zip
+README.md
+CONTRIBUTING.md
+LICENSE
+LICENSE-DATA
